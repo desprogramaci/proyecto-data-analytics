@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+
+# ETL
+etl-python/raw/*
+etl-python/processed/*
+etl-python/errors/*
+etl-python/logs/*
+
+# Docker volumes
+postgres_data/
+metabase-data/
+
+# Laravel
+analytics-app/vendor/
+analytics-app/node_modules/
+analytics-app/storage/
+analytics-app/.env
+
+# System
+.DS_Store
+.env
