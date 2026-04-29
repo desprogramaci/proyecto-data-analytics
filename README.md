@@ -1,160 +1,91 @@
-📊 Proyecto de Data Analytics con ETL en Python, PostgreSQL, Laravel 12, Docker y Metabase
-Este proyecto implementa un pipeline completo de datos utilizando:
+# 📊 Data Analytics Ecosystem: ETL, BI & Web App
 
-- **Laravel** como aplicación web y API
-- **Python** para el ETL
-- **PostgreSQL** como base de datos central
-- **Docker Compose** para orquestación
-- **Metabase** para dashboards
-- **Adminer** para administración de la base de datos
-- **Generación automática de datos con estacionalidad realista**
+Este proyecto implementa un pipeline end-to-end de datos diseñado para simular un entorno corporativo de analítica real. Automatiza todo el flujo: desde la generación de datos sintéticos con lógica de negocio (estacionalidad) hasta la visualización en dashboards profesionales.
 
-El objetivo es simular un entorno real de analítica empresarial con un flujo profesional:
+---
+## 🛠️ Stack Tecnológico
 
-Código
-Generación de datos → ETL → PostgreSQL → Dashboards en Metabase
+| Componente | Tecnología | Rol en el Proyecto |
+| :--- | :--- | :--- |
+| **Backend / API** | **Laravel 12** | Aplicación de consumo y exposición de datos procesados. |
+| **Data Engine** | **Python 3.11** | Motor de ETL, limpieza, validación y generación de datos. |
+| **Base de Datos** | **PostgreSQL 16** | Almacén de datos central (Data Warehouse). |
+| **Visualización** | **Metabase** | Plataforma de Business Intelligence y Dashboards. |
+| **Infraestructura** | **Docker Compose** | Orquestación de microservicios y persistencia. |
+| **Administración** | **Adminer** | Cliente ligero para gestión rápida de la DB. |
 
-🚀 **Características principales**:
+---
 
-✔ **Laravel (analytics-app)**
-- API para exponer datos procesados
-- Panel web para visualización
-- Integración directa con PostgreSQL
-- Arquitectura MVC limpia
+## 🏗️ Arquitectura y Flujo de Datos
 
-✔ **ETL profesional en Python**
--Limpieza de datos
--Validación de columnas
--Conversión de tipos
--Generación de IDs únicos
--Cálculo automático de totales
--Manejo de errores
--Logs detallados
--Procesamiento incremental
+El sistema opera bajo un flujo profesional de ingeniería de datos:
 
-✔ **Generación automática de datos realistas**
--Incluye estacionalidad:
--Rebajas de enero
--Semana Santa
--Caída en verano
--Vuelta al cole
--Black Friday
--Navidad
+1.  **Generación:** Script Python crea datasets `.csv` en la carpeta `/raw` con estacionalidad (Black Friday, Navidad, etc.).
+2.  **Procesamiento (ETL):** Limpieza, validación de tipos, cálculo de totales y manejo de errores.
+3.  **Carga:** Inserción de datos transformados en **PostgreSQL**.
+4.  **Visualización:** Consumo de métricas vía **Metabase** y exposición de datos vía **Laravel API**.
 
-✔ **Base de datos PostgreSQL en Docker**
--Persistencia con volúmenes
--Configuración automática
--Acceso desde Metabase y Adminer
-
-✔ **Dashboards en Metabase**
--Conexión directa a PostgreSQL
--Visualizaciones dinámicas
--KPIs y tendencias
-
-✔ **Adminer para administración rápida**
--Consultas SQL
--Exploración de tablas
--Gestión de datos
-
-🐳 **Arquitectura del proyecto**
+### Estructura del Repositorio
 
 proyecto-data-analytics/
-│
-├── analytics-app/          # Aplicación Laravel
-│   ├── app/
-│   ├── routes/
-│   ├── resources/
-│   └── ...
-│
-├── etl-python/
-│   ├── etl.py              # Pipeline principal
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   │
-│   ├── raw/                # Datos sin procesar (entrada)
-│   ├── processed/          # Datos procesados
-│   ├── logs/               # Logs del ETL
-│   ├── errors/             # Archivos con errores
-│   │
-│   └── scripts/
-│       └── generar_ventas.py   # Generador de datos con estacionalidad
-│
-├── docker-compose.yml
-└── metabase-data/          # Persistencia de Metabase
+├── analytics-app/         # Aplicación Laravel (MVC)
+├── etl-python/            # Pipeline de Ingeniería de Datos
+│   ├── raw/               # Landing zone (Archivos de entrada)
+│   ├── processed/         # Datos procesados con éxito
+│   ├── logs/              # Trazabilidad del sistema
+│   ├── errors/            # Archivos con fallos de validación
+│   ├── scripts/           # Generador de ventas con estacionalidad
+│   └── etl.py             # Script core del pipeline
+├── docker-compose.yml     # Orquestación de servicios
+└── metabase-data/         # Persistencia de Dashboards
 
+🚀 Despliegue Rápido
+Solo necesitas tener instalado Docker y Docker Desktop.
 
-🧱 **Servicios incluidos (Docker Compose)**
--postgres → Base de datos
--etl → Ejecuta el pipeline automáticamente
--metabase → Dashboards
--adminer → UI para PostgreSQL
+  1 Clonar el proyecto:
+      git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
+      cd tu-repositorio
+        Bash
+        git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
+        cd tu-repositorio
+  
+  2 Levantar el ecosistema:
+      Bash
+      docker compose up --build -d
+    Este comando levantará todos los servicios y ejecutará el ETL automáticamente por primera vez.
 
-▶️ **Cómo ejecutar el proyecto**
--Desde la raíz del proyecto:
-bash
-docker compose up --build
+🔗 Puntos de Acceso y Credenciales
+    Servicio	      URL	      Credenciales (Default)
+    🌐 Laravel       App	      http://localhost:8000	N/A
+    📈 Metabase	      http:      //localhost:3000	Configurar al primer inicio
+    🗄️ Adminer	      http:      //localhost:8080	Server: postgres
+    
+    Nota sobre la DB: El nombre de la base de datos es analytics y la contraseña es postgres.
 
-**Esto hará:**
--Levantar PostgreSQL
--Levantar Laravel
--Levantar Metabase
--Levantar Adminer
--Ejecutar el ETL automáticamente
--Generar datos con estacionalidad
--Cargar los datos en PostgreSQL
+⚙️ Características del Pipeline (ETL)
+    -El módulo de Python implementa reglas de robustez industrial:
+    -Validación Estricta: Limpieza de strings y conversión de tipos de datos.
+    -Lógica de Estacionalidad: Los datos reflejan tendencias reales (Picos en Black Friday, caídas en verano).
+    -Manejo de Errores: Los registros corruptos se mueven a la carpeta /errors para auditoría.
+    -Procesamiento Incremental: Evita la duplicidad de datos en cargas sucesivas.
 
-🗄 **Acceso a los servicios**
+🧪 Comandos Útiles
+    1 Monitorear el proceso ETL:
+        Bash
+        docker logs -f etl_python
+      
+    2 Reiniciar el ciclo de carga de datos:
+        Bash
+        docker compose restart etl
+        
+    3 Acceder a la terminal de la Base de Datos:
+        Bash
+        docker exec -it postgres_data psql -U postgres -d analytics
 
-🔹 **Laravel**
-http://localhost:8000
+  📝 Licencia
+      Este proyecto es de código abierto y está disponible bajo la Licencia MIT. Ideal para fines educativos y   demostraciones técnicas.
+      
+  🙌 Autor
+      Yonti Testa - Data Engineering & Fullstack Developer Project
 
-🔹 **Metabase**
-http://localhost:3000
-
-🔹 **Adminer**
-http://localhost:8080
-
-**Credenciales:**
--Servidor: postgres
--Usuario: postgres
--Contraseña: postgres
--Base de datos: analytics
-
-📦 **ETL: Flujo completo**
--Ejecuta generar_ventas.py
--Crea ventas_grandes.csv en raw/
--Valida columnas y tipos
--Limpia strings
--Genera id_transaccion
--Calcula total
--Inserta en PostgreSQL
--Mueve archivo a processed/
-
-📈 **Dashboards en Metabase**
--Una vez cargados los datos, puedes crear dashboards como:
--Ventas por mes
--Ventas por categoría
--Ventas por país
--Tendencias estacionales
--Top productos
--Comparativa por canal de venta
-
-🧪 **Comandos útiles**
--Ver logs del ETL
-bash
-docker logs etl_python
-
--Reiniciar solo el ETL
-bash
-docker compose restart etl
-
--Acceder a PostgreSQL desde el contenedor
-bash
-docker exec -it postgres_data psql -U postgres -d analytics
-
-📝 **Licencia**
--Este proyecto es de uso libre para aprendizaje, análisis y demostración.
-
-🙌 **Autor**
--Yonti Testa 
--Proyecto de Data Engineering con ETL + Docker + Metabase
+      
